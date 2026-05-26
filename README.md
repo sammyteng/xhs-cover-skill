@@ -1,6 +1,6 @@
-# 小红书封面生成器 - Claude Code Skill
+# 小红书封面生成器 - Codex Skill
 
-在命令行直接生成小红书封面图片，无需打开网站。
+在 Codex 中直接生成或修改小红书封面。推荐安装到 Codex，这样可以优先调用 Codex 的 GPT Image 2 / 图片生成能力；Gemini 命令行脚本保留为备用方案。
 
 **官网**：[xhscover.vivi.wiki](https://xhscover.vivi.wiki)（可在线预览所有风格效果图）
 
@@ -12,28 +12,39 @@
 
 ![网站截图 - 风格选择与配置面板](assets/screenshot-website.png)
 
-> 在命令行选择风格后，Skill 会自动完成上图中所有配置步骤，直接输出封面图片。
+> 在 Codex 中选择风格后，Skill 会自动完成上图中所有配置步骤，直接输出封面图片。
 > 完整风格效果图可在 [xhscover.vivi.wiki](https://xhscover.vivi.wiki) 预览。
 
 ---
 
 ## 前置要求
 
-- [Claude Code](https://claude.ai/code) CLI 已安装
-- Node.js 18+（macOS / Linux / Windows 均支持）
+- Codex（推荐，可直接调用 Codex 的 GPT Image 2 / 图片生成能力）
+- Node.js 18+（仅 Gemini CLI 备用方案和命令行脚本需要，macOS / Linux / Windows 均支持）
 
 ---
 
 ## 安装
 
-**Claude Code：**
+**Codex（推荐）：**
+
+```bash
+git clone https://github.com/Vivixiao980/xhs-cover-skill ~/.codex/skills/xhs-cover-skill
+cd ~/.codex/skills/xhs-cover-skill && npm install
+```
+
+重启 Codex 后，Skill 自动生效。在 Codex 中使用时，默认优先走 Codex 自带的图片生成/编辑能力，不需要先配置 Gemini API。
+
+如果只使用 Codex 主流程，`npm install` 可以跳过；安装依赖是为了启用 Gemini CLI 备用方案和直接命令行脚本。
+
+**Claude Code / Gemini CLI 备用方案：**
 
 ```bash
 git clone https://github.com/Vivixiao980/xhs-cover-skill ~/.claude/skills/xhs-cover
 cd ~/.claude/skills/xhs-cover && npm install
 ```
 
-重启 Claude Code 后，Skill 自动生效。
+重启 Claude Code 后，Skill 自动生效。没有 Codex 图片生成能力时，会回落到 Gemini API 命令行流程。
 
 **OpenClaw：**
 
@@ -65,20 +76,23 @@ curl -fsSL https://raw.githubusercontent.com/Vivixiao980/xhs-cover-skill/main/in
 
 ## 使用方法
 
-在 Claude Code 中输入任意触发词即可：
+在 Codex 中输入任意触发词即可：
 
 ```
 生成封面
 小红书封面
 制作封面
 xhs封面
+修改封面
 ```
 
-**首次使用**会引导你完成 API 配置（约 2 分钟）。
+安装在 Codex 中时，Skill 会优先使用 Codex 图片生成/编辑能力。只有在明确使用 Gemini CLI 备用方案，或当前环境没有可用图片生成能力时，才需要完成下面的 API 配置。
 
 ---
 
-## API 配置
+## API 配置（Gemini CLI 备用方案）
+
+Codex 推荐流程不需要单独配置 Gemini API。以下配置仅用于命令行脚本或 Gemini CLI 备用方案。
 
 ### 方案 A：Google AI Studio
 
@@ -100,7 +114,8 @@ xhs封面
   "apiType": "third-party",
   "apiKey": "your-api-key",
   "baseUrl": "https://your-provider.com",
-  "model": "gemini-3-pro-image-preview",  "outputDir": "~/Desktop/XHS封面",
+  "model": "gemini-3-pro-image-preview",
+  "outputDir": "~/Desktop/XHS封面",
   "defaultAspectRatio": "3:4"
 }
 ```
@@ -112,7 +127,7 @@ xhs封面
 也可以绕过 Skill，直接调用脚本：
 
 ```bash
-node ~/.claude/skills/xhs-cover/scripts/generate.mjs \
+node ~/.codex/skills/xhs-cover-skill/scripts/generate.mjs \
   --image "/path/to/photo.jpg" \
   --style "hand-drawn-border" \
   --title "你的封面大标题" \

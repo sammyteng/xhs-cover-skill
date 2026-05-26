@@ -1,9 +1,11 @@
 ---
 name: xhs-cover
 description: >
-  Generate Xiaohongshu (XHS / RedNote) cover images using Gemini API.
+  Generate Xiaohongshu (XHS / RedNote) cover images using GPT Image 2 / Codex image generation first, with the legacy Gemini CLI as fallback.
   Triggers for cover generation: "生成封面", "小红书封面", "xhs封面", "制作封面",
   "帮我做张图", "XHS cover", "RedNote cover".
+  Triggers for cover editing: "修改封面", "改一下封面", "上一张图基础上",
+  "基于这张图调整", "不要重新做", "edit this cover".
   Triggers for style learning: "学习这个风格", "提取风格", "我想自定义风格",
   "这张图的风格", "learn this style", "extract style".
   Always trigger this skill when user mentions 小红书/XHS/RedNote together
@@ -14,18 +16,18 @@ metadata:
     requires:
       bins:
         - node
-    primaryEnv: XHS_COVER_API_KEY
+    primaryEnv: OPENAI_API_KEY
     emoji: "🎨"
 ---
 
 # 小红书封面生成器
 
-在命令行直接生成小红书封面，无需打开网站。
+直接生成或修改小红书封面，优先使用 GPT Image 2 / Codex 图片生成能力。
 
 - **官网**：https://xhscover.vivi.wiki（可在线预览所有风格效果图）
 - **作者**：Vivi
 - **支持风格**：18种预设风格 + 用户自定义风格
-- **技术原理**：调用 Gemini 图片生成模型，将你的人像照片 + 文字要求合成为封面图
+- **技术原理**：优先用 GPT Image 2 / Codex 图片生成或编辑，将你的人像照片/上一版封面 + 文字要求合成为封面图；Gemini 命令行脚本仅作为备用方案。
 
 ---
 
@@ -33,6 +35,7 @@ metadata:
 
 本 Skill 的脚本位于 SKILL.md 所在目录。执行任何命令前，先确定 `SKILL_DIR`：
 
+- **Codex（推荐）**：`~/.codex/skills/xhs-cover-skill`
 - **Claude Code**：`~/.claude/skills/xhs-cover`
 - **OpenClaw**：`~/.openclaw/skills/xhs-cover`
 
@@ -45,12 +48,51 @@ metadata:
 触发后，先判断用户意图：
 
 - **生成封面**（默认）：用户想用已有风格生成封面 → 进入下方「执行流程」
+- **修改封面**：用户对已生成封面提出排版、文案、比例、人物大小、颜色或局部风格修改 → 必须以上一张封面图作为输入图进行编辑，保留原图主体风格和构图，只改用户点名的部分；不要从零重新创造一张封面。
 - **学习/提取风格**：用户上传了参考图，或说了「学习/提取/自定义风格」→ 跳到「风格学习工作流」
 - **使用自定义风格**：用户说「用 XX 风格生成」且 XX 不在内置列表中 → 检查 `styles/` 目录是否有对应 JSON；有则使用，无则建议先运行风格学习工作流
 
 ---
 
 ## 执行流程
+
+### Step 0：优先使用 GPT Image 2
+
+在 Codex 中，如果可以使用图片生成/编辑能力，默认使用 GPT Image 2 生成或编辑封面，不再优先调用 Gemini CLI。
+
+输入要素：
+- 人物照片：用户上传的图片，或给出的本地绝对路径。
+- 上一版封面：当用户要求“修改/调整/在上一张基础上改”时，必须使用最近一次生成或用户明确指定的封面图作为编辑输入。
+- 主标题：封面最大字。
+- 副标题/小字：辅助说明，可拆成 1-3 行。
+- 风格：映射到内置风格语义，例如 `hand-drawn-border` = 手绘边框/综艺活力感。
+- 比例：默认小红书 3:4。
+
+生成提示词模板：
+
+```text
+使用用户提供的人物照片生成一张小红书 3:4 竖版封面。保持人物脸部身份和五官特征真实自然，不改变发型、妆容和服装主体。
+
+风格：{风格中文描述}。
+主标题：{主标题}
+副标题/小字：{副标题}
+
+排版要求：主标题最大、最醒目；副标题作为小字分行排版；文字清晰可读，适合手机信息流；不要添加除主标题和副标题之外的任何文字。
+```
+
+封面修改提示词模板：
+
+```text
+基于用户指定或最近一次生成的小红书封面图进行局部修改，不要重新设计一张新图。保留原图的主体风格、构图、人物身份、边框、纹理、色彩气质和封面层次，只修改用户明确点名的内容。
+
+本次修改要求：{用户修改要求}
+
+如果涉及文字，必须严格使用用户给出的文案，中文准确、无错别字、无乱码；不要添加未要求的新文字。保持 3:4 竖版小红书封面比例，文字适合手机信息流阅读。
+```
+
+如果用户明确要求“xhs cover skill + GPT Image 2”，直接按本步骤生成。
+
+以下 Gemini CLI 流程仅在 GPT Image 2 不可用、或用户明确要求命令行/API 生成时使用。
 
 ### Step 1：检查配置（首次使用 Onboarding）
 
