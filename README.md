@@ -138,32 +138,130 @@ node ~/.codex/skills/xhs-cover-skill/scripts/generate.mjs \
 
 ---
 
-## 风格列表
+## 风格展示与列表
 
-序号 | 风格ID | 名称 | 一句话描述
----|---|---|---
- 1  | hand-drawn-border        | 手绘边框   | 黄色手绘描边，综艺活力感
- 2  | outdoor-handwriting      | 户外手写   | 竖排毛笔黄字，清新自由感
- 3  | neon-contrast            | 霓虹撞色   | 荧光粉绿大胆撞色，Y2K潮流
- 4  | multi-layer-layout       | 多层排版   | 黑橙混排，杂志编辑风格
- 5  | study-room-intellectual  | 书房知性   | 奶油色手写字，温暖智慧感
- 6  | professional-woman       | 职场女性   | 奶黄大字+红色虚线，赋能感
- 7  | sticker-energy           | 贴纸活力   | 人物抠图贴纸效果，闪电星星装饰
- 8  | dashed-decoration        | 虚线装饰   | 白字橙副标，虚线半圆环绕
- 9  | background-big-text      | 背景大字   | 超大橙字作背景，人物前景
-10  | thinking-question        | 思考提问   | 蓝灰毛笔字，问号设计
-11  | split-screen-tags        | 分屏标签   | 上图下色块，黄蓝配色
-12  | cozy-home                | 温馨居家   | 黄白渐变字+椭圆高亮
-13  | workplace-big-text       | 职场大字   | 白色超大字叠人物，冲击力
-14  | dark-glow                | 深色发光   | 深色背景+黄色发光文字
-15  | home-motivation          | 居家励志   | 亮黄大字，开放姿势场景
-16  | yellow-pink-banner       | 黄粉横幅   | 黄字顶部+粉色横幅底部
-17  | pink-yellow-playful      | 粉黄俏皮   | 波浪英文+手写中文，可爱
-18  | professional-clean       | 专业简洁   | 白字简洁，现代办公场景
-19  | tech-finance-analytical  | 科技财经分析| 倾斜大字发光阴影，实景/博弈背景，专业深度感
-20  | ai-avatar-sticker        | AI大头贴   | 大头 Q 版人像，3D卡通场景，黑体粗边高对比字
-21  | geek-workflow-dialog     | 极客工作流 | 电光蓝渐变标题，毛玻璃输入框，手写英文点缀
-22  | hurricane-adventure      | 影视飓风   | 趣味夸张表情，手绘黄色大指示箭头，极粗包边字
+本 Skill 整合了 22 种各行业和自媒体最常用的排版与视觉风格：
+
+### 1. 科技/AI/极客类
+
+<table>
+  <tr>
+    <td align="center" width="20%">
+      <img src="assets/styles/tech-finance-analytical.jpg" width="160"><br>
+      <b>科技财经分析</b><br><code>tech-finance-analytical</code>
+    </td>
+    <td align="center" width="20%">
+      <img src="assets/styles/geek-workflow-dialog.jpg" width="160"><br>
+      <b>极客工作流</b><br><code>geek-workflow-dialog</code>
+    </td>
+    <td align="center" width="20%">
+      <img src="assets/styles/dark-glow.jpg" width="160"><br>
+      <b>深色发光</b><br><code>dark-glow</code>
+    </td>
+    <td align="center" width="20%">
+      <img src="assets/styles/background-big-text.jpg" width="160"><br>
+      <b>背景大字</b><br><code>background-big-text</code>
+    </td>
+    <td align="center" width="20%">
+      <img src="assets/styles/workplace-big-text.jpg" width="160"><br>
+      <b>职场大字</b><br><code>workplace-big-text</code>
+    </td>
+  </tr>
+</table>
+
+### 2. 搞笑/综艺/网感类
+
+<table>
+  <tr>
+    <td align="center" width="20%">
+      <img src="assets/styles/ai-avatar-sticker.jpg" width="160"><br>
+      <b>AI大头贴</b><br><code>ai-avatar-sticker</code>
+    </td>
+    <td align="center" width="20%">
+      <img src="assets/styles/hurricane-adventure.jpg" width="160"><br>
+      <b>影视飓风</b><br><code>hurricane-adventure</code>
+    </td>
+    <td align="center" width="20%">
+      <img src="assets/styles/hand-drawn-border.jpg" width="160"><br>
+      <b>手绘边框</b><br><code>hand-drawn-border</code>
+    </td>
+    <td align="center" width="20%">
+      <img src="assets/styles/sticker-energy.jpg" width="160"><br>
+      <b>贴纸活力</b><br><code>sticker-energy</code>
+    </td>
+    <td align="center" width="20%">
+      <img src="assets/styles/pink-yellow-playful.jpg" width="160"><br>
+      <b>粉黄俏皮</b><br><code>pink-yellow-playful</code>
+    </td>
+  </tr>
+</table>
+
+### 3. 职场/知性/学习类
+
+<table>
+  <tr>
+    <td align="center" width="20%">
+      <img src="assets/styles/professional-clean.jpg" width="160"><br>
+      <b>专业简洁</b><br><code>professional-clean</code>
+    </td>
+    <td align="center" width="20%">
+      <img src="assets/styles/professional-woman.jpg" width="160"><br>
+      <b>职场女性</b><br><code>professional-woman</code>
+    </td>
+    <td align="center" width="20%">
+      <img src="assets/styles/study-room-intellectual.jpg" width="160"><br>
+      <b>书房知性</b><br><code>study-room-intellectual</code>
+    </td>
+    <td align="center" width="20%">
+      <img src="assets/styles/thinking-question.jpg" width="160"><br>
+      <b>思考提问</b><br><code>thinking-question</code>
+    </td>
+    <td align="center" width="20%">
+      <img src="assets/styles/home-motivation.jpg" width="160"><br>
+      <b>居家励志</b><br><code>home-motivation</code>
+    </td>
+  </tr>
+</table>
+
+### 4. 日常/居家/生活类
+
+<table>
+  <tr>
+    <td align="center" width="25%">
+      <img src="assets/styles/cozy-home.jpg" width="160"><br>
+      <b>温馨居家</b><br><code>cozy-home</code>
+    </td>
+    <td align="center" width="25%">
+      <img src="assets/styles/outdoor-handwriting.jpg" width="160"><br>
+      <b>户外手写</b><br><code>outdoor-handwriting</code>
+    </td>
+    <td align="center" width="25%">
+      <img src="assets/styles/dashed-decoration.jpg" width="160"><br>
+      <b>虚线装饰</b><br><code>dashed-decoration</code>
+    </td>
+    <td align="center" width="25%">
+      <img src="assets/styles/split-screen-tags.jpg" width="160"><br>
+      <b>分屏标签</b><br><code>split-screen-tags</code>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="25%">
+      <img src="assets/styles/yellow-pink-banner.jpg" width="160"><br>
+      <b>黄粉横幅</b><br><code>yellow-pink-banner</code>
+    </td>
+    <td align="center" width="25%">
+      <img src="assets/styles/neon-contrast.jpg" width="160"><br>
+      <b>霓虹撞色</b><br><code>neon-contrast</code>
+    </td>
+    <td align="center" width="25%">
+      <img src="assets/styles/multi-layer-layout.jpg" width="160"><br>
+      <b>多层排版</b><br><code>multi-layer-layout</code>
+    </td>
+    <td align="center" width="25%">
+      -
+    </td>
+  </tr>
+</table>
 
 ---
 
