@@ -1,41 +1,41 @@
 #!/bin/bash
-# 小红书封面生成器 - Codex Skill 安装脚本
+# 小红书AI生图封面skill 安装脚本
 
 set -e
 
 REPO_URL="https://github.com/sammyteng/xhs-cover-skill"
 
-# 自动检测安装平台。Codex 优先，因为可直接调用内置图片生成/编辑能力。
+# 自动检测安装平台。支持在 Claude Code、Codex 或 OpenClaw 中运行，也可以作为独立 CLI 工具使用。
 PLATFORM=""
-if [ -d "$HOME/.codex" ] || command -v codex &> /dev/null; then
-  SKILL_DIR="$HOME/.codex/skills/xhs-cover-skill"
-  PLATFORM="Codex"
-  echo "📍 检测到 Codex，安装到 $SKILL_DIR"
-elif [ -d "$HOME/.claude/skills" ]; then
+if [ -d "$HOME/.claude/skills" ]; then
   SKILL_DIR="$HOME/.claude/skills/xhs-cover"
   PLATFORM="Claude Code"
   echo "📍 检测到 Claude Code，安装到 $SKILL_DIR"
+elif [ -d "$HOME/.codex" ] || command -v codex &> /dev/null; then
+  SKILL_DIR="$HOME/.codex/skills/xhs-cover-skill"
+  PLATFORM="Codex"
+  echo "📍 检测到 Codex，安装到 $SKILL_DIR"
 elif [ -d "$HOME/.openclaw/skills" ]; then
   SKILL_DIR="$HOME/.openclaw/skills/xhs-cover"
   PLATFORM="OpenClaw"
   echo "📍 检测到 OpenClaw，安装到 $SKILL_DIR"
 else
-  echo "未检测到 Codex、Claude Code 或 OpenClaw 的 skills 目录。请选择安装位置："
-  echo "  1) Codex（推荐） ($HOME/.codex/skills/xhs-cover-skill)"
-  echo "  2) Claude Code  ($HOME/.claude/skills/xhs-cover)"
+  echo "请选择安装位置："
+  echo "  1) Claude Code  ($HOME/.claude/skills/xhs-cover)"
+  echo "  2) Codex        ($HOME/.codex/skills/xhs-cover-skill)"
   echo "  3) OpenClaw     ($HOME/.openclaw/skills/xhs-cover)"
   echo "  4) 自定义路径"
   read -r -p "请输入选项 [1/2/3/4]: " choice
   case "$choice" in
-    1) SKILL_DIR="$HOME/.codex/skills/xhs-cover-skill"; PLATFORM="Codex" ;;
-    2) SKILL_DIR="$HOME/.claude/skills/xhs-cover"; PLATFORM="Claude Code" ;;
+    1) SKILL_DIR="$HOME/.claude/skills/xhs-cover"; PLATFORM="Claude Code" ;;
+    2) SKILL_DIR="$HOME/.codex/skills/xhs-cover-skill"; PLATFORM="Codex" ;;
     3) SKILL_DIR="$HOME/.openclaw/skills/xhs-cover"; PLATFORM="OpenClaw" ;;
     4) read -r -p "请输入完整安装路径: " SKILL_DIR; PLATFORM="Custom" ;;
     *) echo "无效选项"; exit 1 ;;
   esac
 fi
 
-echo "🎨 安装小红书封面生成器 Skill..."
+echo "🎨 安装小红书AI生图封面skill..."
 
 # 检查 git
 if ! command -v git &> /dev/null; then
@@ -114,13 +114,13 @@ echo "✅ 安装完成！"
 echo ""
 if [ "$PLATFORM" = "Codex" ]; then
   echo "重启 Codex 后，输入「生成封面」或「小红书封面」即可开始使用。"
-  echo "默认优先调用 Codex 的图片生成/编辑能力；Gemini API 仅作为备用方案。"
+  echo "已支持通过 API Key 或 Codex 内置生图能力进行封面生成与合成。"
 elif [ "$PLATFORM" = "Custom" ]; then
   echo "安装路径：$SKILL_DIR"
   echo "请重启对应的客户端，然后输入「生成封面」或「小红书封面」开始使用。"
 else
   echo "重启 $PLATFORM 后，输入「生成封面」或「小红书封面」即可开始使用。"
-  echo "如果当前环境没有 Codex 图片生成能力，会引导配置 Gemini API 备用方案。"
+  echo "你可以配置 API Key（~/.config/xhs-cover/config.json）在终端或客户端中独立生图。"
 fi
 echo ""
 echo "📖 详细文档：$REPO_URL"

@@ -1,11 +1,11 @@
 ---
-name: xhs-cover
-description: 一键生成/修改符合小红书 3:4 比例的爆款封面图，支持 22 种风格
+name: xhs-ai-cover
+description: 一键生成/修改符合小红书 3:4 比例的爆款封面图，支持配置 API Key 或在 Codex 等环境直接生图
 ---
 
-# 小红书封面生成器 (XHS Cover Generator)
+# 小红书AI生图封面skill (XHS AI Cover Generator)
 
-直接生成或修改小红书封面，优先使用 GPT Image 2 / Codex 图片生成能力。
+直接生成或修改小红书封面。本工具为通用 Agent Skill，不绑定特定客户端。支持配置多模态大模型 API Key（如 Gemini 或 OpenAI 兼容接口）进行独立生图，也可以在 Codex 等环境下配合客户端内置的图片生成能力使用。
 
 ---
 

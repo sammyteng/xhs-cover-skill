@@ -1,6 +1,6 @@
-# 小红书封面生成器 - Codex Skill
+# 小红书AI生图封面skill (XHS AI Cover Generator)
 
-在 Codex 中直接生成或修改小红书封面。推荐安装到 Codex，这样可以优先调用 Codex 的 GPT Image 2 / 图片生成能力；Gemini 命令行脚本保留为备用方案。
+直接生成或修改小红书封面。本工具为通用 Agent Skill，不绑定特定客户端。支持在 Claude Code、Codex 或终端直接运行，通过配置多模态大模型 API Key（如 Gemini 或 OpenAI 兼容接口）即可一键完成爆款排版与合成。
 
 **GitHub 仓库**：[sammyteng/xhs-cover-skill](https://github.com/sammyteng/xhs-cover-skill)
 
@@ -8,61 +8,48 @@
 
 ## 效果预览
 
-支持 22 种预设风格，覆盖职场、居家、综艺、文艺等各类场景：
-
-![网站截图 - 风格选择与配置面板](assets/screenshot-website.png)
-
-> 在 Codex 中选择风格后，Skill 会自动完成上图中所有配置步骤，直接输出封面图片。
+支持 22 种预设风格，覆盖职场、居家、综艺、文艺等各类场景。每个风格的具体定义与一句话描述请参考下方「风格列表」。
 
 ---
 
 ## 前置要求
 
-- Codex（推荐，可直接调用 Codex 的 GPT Image 2 / 图片生成能力）
-- Node.js 18+（仅 Gemini CLI 备用方案和命令行脚本需要，macOS / Linux / Windows 均支持）
+- Node.js 18+（macOS / Linux / Windows 均支持）
+- 多模态生图 API 凭证（如 Google AI Studio API Key 或 OpenAI 兼容代理 Key）
 
 ---
 
 ## 安装
 
-**Codex（推荐）：**
+选择你使用的客户端平台克隆本仓库：
 
+**Claude Code：**
 ```bash
-git clone https://github.com/Vivixiao980/xhs-cover-skill ~/.codex/skills/xhs-cover-skill
-cd ~/.codex/skills/xhs-cover-skill && npm install
-```
-
-重启 Codex 后，Skill 自动生效。在 Codex 中使用时，默认优先走 Codex 自带的图片生成/编辑能力，不需要先配置 Gemini API。
-
-如果只使用 Codex 主流程，`npm install` 可以跳过；安装依赖是为了启用 Gemini CLI 备用方案和直接命令行脚本。
-
-**Claude Code / Gemini CLI 备用方案：**
-
-```bash
-git clone https://github.com/Vivixiao980/xhs-cover-skill ~/.claude/skills/xhs-cover
+git clone https://github.com/sammyteng/xhs-cover-skill ~/.claude/skills/xhs-cover
 cd ~/.claude/skills/xhs-cover && npm install
 ```
 
-重启 Claude Code 后，Skill 自动生效。没有 Codex 图片生成能力时，会回落到 Gemini API 命令行流程。
+**Codex：**
+```bash
+git clone https://github.com/sammyteng/xhs-cover-skill ~/.codex/skills/xhs-cover-skill
+cd ~/.codex/skills/xhs-cover-skill && npm install
+```
 
 **OpenClaw：**
-
 ```bash
-git clone https://github.com/Vivixiao980/xhs-cover-skill ~/.openclaw/skills/xhs-cover
+git clone https://github.com/sammyteng/xhs-cover-skill ~/.openclaw/skills/xhs-cover
 cd ~/.openclaw/skills/xhs-cover && npm install
 ```
 
-然后在 OpenClaw 配置中添加 API Key（可替代 Onboarding 流程）：
-
+然后在 OpenClaw 配置文件中添加 API 环境变量：
 ```yaml
-# ~/.openclaw/config.yaml
 skills:
   entries:
     xhs-cover:
       env:
         XHS_COVER_API_KEY: "你的 API Key"
         XHS_COVER_BASE_URL: "https://generativelanguage.googleapis.com/v1beta/openai"
-        XHS_COVER_MODEL: "gemini-2.0-flash-exp-image-generation"
+        XHS_COVER_MODEL: "gemini-3-pro-image"
 ```
 
 **或者使用安装脚本（自动检测平台）：**
@@ -75,23 +62,17 @@ curl -fsSL https://raw.githubusercontent.com/sammyteng/xhs-cover-skill/main/inst
 
 ## 使用方法
 
-在 Codex 中输入任意触发词即可：
+在客户端输入任意触发词即可开始对话引导：
+- `生成封面` / `小红书封面` / `制作封面` / `xhs封面`
+- `修改封面`（在上一张图的基础上进行调整）
 
-```
-生成封面
-小红书封面
-制作封面
-xhs封面
-修改封面
-```
-
-安装在 Codex 中时，Skill 会优先使用 Codex 图片生成/编辑能力。只有在明确使用 Gemini CLI 备用方案，或当前环境没有可用图片生成能力时，才需要完成下面的 API 配置。
+如果是在 Claude Code / 终端直接运行，需要先配置大模型 API Key（见下方「API 配置」）。
 
 ---
 
-## API 配置（Gemini CLI 备用方案）
+## API 配置
 
-Codex 推荐流程不需要单独配置 Gemini API。以下配置仅用于命令行脚本或 Gemini CLI 备用方案。
+可以直接通过对话引导中的 Onboarding 步骤进行配置，也可以在本地手动配置。
 
 ### 方案 A：Google AI Studio
 
@@ -159,138 +140,30 @@ node ~/.codex/skills/xhs-cover-skill/scripts/generate.mjs \
 
 ## 风格列表
 
-<table>
-  <tr>
-    <td align="center" width="33%">
-      <img src="assets/styles/hand-drawn-border.jpg" width="220"><br>
-      <b>手绘边框</b> <code>hand-drawn-border</code><br>
-      <sub>黄色手绘描边，综艺活力感</sub>
-    </td>
-    <td align="center" width="33%">
-      <img src="assets/styles/outdoor-handwriting.jpg" width="220"><br>
-      <b>户外手写</b> <code>outdoor-handwriting</code><br>
-      <sub>竖排毛笔黄字，清新自由感</sub>
-    </td>
-    <td align="center" width="33%">
-      <img src="assets/styles/neon-contrast.jpg" width="220"><br>
-      <b>霓虹撞色</b> <code>neon-contrast</code><br>
-      <sub>荧光粉绿大胆撞色，Y2K潮流</sub>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="assets/styles/multi-layer-layout.jpg" width="220"><br>
-      <b>多层排版</b> <code>multi-layer-layout</code><br>
-      <sub>黑橙混排，杂志编辑风格</sub>
-    </td>
-    <td align="center">
-      <img src="assets/styles/study-room-intellectual.jpg" width="220"><br>
-      <b>书房知性</b> <code>study-room-intellectual</code><br>
-      <sub>奶油色手写字，温暖智慧感</sub>
-    </td>
-    <td align="center">
-      <img src="assets/styles/professional-woman.jpg" width="220"><br>
-      <b>职场女性</b> <code>professional-woman</code><br>
-      <sub>奶黄大字+红色虚线，赋能感</sub>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="assets/styles/sticker-energy.jpg" width="220"><br>
-      <b>贴纸活力</b> <code>sticker-energy</code><br>
-      <sub>人物抠图贴纸效果，闪电星星装饰</sub>
-    </td>
-    <td align="center">
-      <img src="assets/styles/dashed-decoration.jpg" width="220"><br>
-      <b>虚线装饰</b> <code>dashed-decoration</code><br>
-      <sub>白字橙副标，虚线半圆环绕</sub>
-    </td>
-    <td align="center">
-      <img src="assets/styles/background-big-text.jpg" width="220"><br>
-      <b>背景大字</b> <code>background-big-text</code><br>
-      <sub>超大橙字作背景，人物前景</sub>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="assets/styles/thinking-question.jpg" width="220"><br>
-      <b>思考提问</b> <code>thinking-question</code><br>
-      <sub>蓝灰毛笔字，问号设计</sub>
-    </td>
-    <td align="center">
-      <img src="assets/styles/split-screen-tags.jpg" width="220"><br>
-      <b>分屏标签</b> <code>split-screen-tags</code><br>
-      <sub>上图下色块，黄蓝配色</sub>
-    </td>
-    <td align="center">
-      <img src="assets/styles/cozy-home.jpg" width="220"><br>
-      <b>温馨居家</b> <code>cozy-home</code><br>
-      <sub>黄白渐变字+椭圆高亮</sub>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="assets/styles/workplace-big-text.jpg" width="220"><br>
-      <b>职场大字</b> <code>workplace-big-text</code><br>
-      <sub>白色超大字叠人物，冲击力</sub>
-    </td>
-    <td align="center">
-      <img src="assets/styles/dark-glow.jpg" width="220"><br>
-      <b>深色发光</b> <code>dark-glow</code><br>
-      <sub>深色背景+黄色发光文字</sub>
-    </td>
-    <td align="center">
-      <img src="assets/styles/home-motivation.jpg" width="220"><br>
-      <b>居家励志</b> <code>home-motivation</code><br>
-      <sub>亮黄大字，开放姿势场景</sub>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="assets/styles/yellow-pink-banner.jpg" width="220"><br>
-      <b>黄粉横幅</b> <code>yellow-pink-banner</code><br>
-      <sub>黄字顶部+粉色横幅底部</sub>
-    </td>
-    <td align="center">
-      <img src="assets/styles/pink-yellow-playful.jpg" width="220"><br>
-      <b>粉黄俏皮</b> <code>pink-yellow-playful</code><br>
-      <sub>波浪英文+手写中文，可爱</sub>
-    </td>
-    <td align="center">
-      <img src="assets/styles/professional-clean.jpg" width="220"><br>
-      <b>专业简洁</b> <code>professional-clean</code><br>
-      <sub>白字简洁，现代办公场景</sub>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="33%">
-      <img src="assets/styles/tech-finance-analytical.jpg" width="220"><br>
-      <b>科技财经分析</b> <code>tech-finance-analytical</code><br>
-      <sub>倾斜大字发光阴影，实景/博弈背景，专业深度感</sub>
-    </td>
-    <td align="center" width="33%">
-      <img src="assets/styles/ai-avatar-sticker.jpg" width="220"><br>
-      <b>AI大头贴</b> <code>ai-avatar-sticker</code><br>
-      <sub>大头 Q 版人像，3D卡通场景，黑体粗边高对比字</sub>
-    </td>
-    <td align="center" width="33%">
-      <img src="assets/styles/geek-workflow-dialog.jpg" width="220"><br>
-      <b>极客工作流</b> <code>geek-workflow-dialog</code><br>
-      <sub>电光蓝渐变标题，毛玻璃输入框，手写英文点缀</sub>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="assets/styles/hurricane-adventure.jpg" width="220"><br>
-      <b>影视飓风</b> <code>hurricane-adventure</code><br>
-      <sub>趣味夸张表情，手绘黄色大指示箭头，极粗包边字</sub>
-    </td>
-    <td align="center">
-    </td>
-    <td align="center">
-    </td>
-  </tr>
-</table>
+序号 | 风格ID | 名称 | 一句话描述
+---|---|---|---
+ 1  | hand-drawn-border        | 手绘边框   | 黄色手绘描边，综艺活力感
+ 2  | outdoor-handwriting      | 户外手写   | 竖排毛笔黄字，清新自由感
+ 3  | neon-contrast            | 霓虹撞色   | 荧光粉绿大胆撞色，Y2K潮流
+ 4  | multi-layer-layout       | 多层排版   | 黑橙混排，杂志编辑风格
+ 5  | study-room-intellectual  | 书房知性   | 奶油色手写字，温暖智慧感
+ 6  | professional-woman       | 职场女性   | 奶黄大字+红色虚线，赋能感
+ 7  | sticker-energy           | 贴纸活力   | 人物抠图贴纸效果，闪电星星装饰
+ 8  | dashed-decoration        | 虚线装饰   | 白字橙副标，虚线半圆环绕
+ 9  | background-big-text      | 背景大字   | 超大橙字作背景，人物前景
+10  | thinking-question        | 思考提问   | 蓝灰毛笔字，问号设计
+11  | split-screen-tags        | 分屏标签   | 上图下色块，黄蓝配色
+12  | cozy-home                | 温馨居家   | 黄白渐变字+椭圆高亮
+13  | workplace-big-text       | 职场大字   | 白色超大字叠人物，冲击力
+14  | dark-glow                | 深色发光   | 深色背景+黄色发光文字
+15  | home-motivation          | 居家励志   | 亮黄大字，开放姿势场景
+16  | yellow-pink-banner       | 黄粉横幅   | 黄字顶部+粉色横幅底部
+17  | pink-yellow-playful      | 粉黄俏皮   | 波浪英文+手写中文，可爱
+18  | professional-clean       | 专业简洁   | 白字简洁，现代办公场景
+19  | tech-finance-analytical  | 科技财经分析| 倾斜大字发光阴影，实景/博弈背景，专业深度感
+20  | ai-avatar-sticker        | AI大头贴   | 大头 Q 版人像，3D卡通场景，黑体粗边高对比字
+21  | geek-workflow-dialog     | 极客工作流 | 电光蓝渐变标题，毛玻璃输入框，手写英文点缀
+22  | hurricane-adventure      | 影视飓风   | 趣味夸张表情，手绘黄色大指示箭头，极粗包边字
 
 ---
 
