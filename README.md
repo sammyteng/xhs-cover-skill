@@ -8,7 +8,7 @@
 
 ## 效果预览
 
-支持 18 种预设风格，覆盖职场、居家、综艺、文艺等各类场景：
+支持 22 种预设风格，覆盖职场、居家、综艺、文艺等各类场景：
 
 ![网站截图 - 风格选择与配置面板](assets/screenshot-website.png)
 
@@ -261,6 +261,34 @@ node ~/.codex/skills/xhs-cover-skill/scripts/generate.mjs \
       <img src="assets/styles/professional-clean.jpg" width="220"><br>
       <b>专业简洁</b> <code>professional-clean</code><br>
       <sub>白字简洁，现代办公场景</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
+      <img src="assets/styles/tech-finance-analytical.jpg" width="220"><br>
+      <b>科技财经分析</b> <code>tech-finance-analytical</code><br>
+      <sub>倾斜大字发光阴影，实景/博弈背景，专业深度感</sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="assets/styles/ai-avatar-sticker.jpg" width="220"><br>
+      <b>AI大头贴</b> <code>ai-avatar-sticker</code><br>
+      <sub>大头 Q 版人像，3D卡通场景，黑体粗边高对比字</sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="assets/styles/geek-workflow-dialog.jpg" width="220"><br>
+      <b>极客工作流</b> <code>geek-workflow-dialog</code><br>
+      <sub>电光蓝渐变标题，毛玻璃输入框，手写英文点缀</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="assets/styles/hurricane-adventure.jpg" width="220"><br>
+      <b>影视飓风</b> <code>hurricane-adventure</code><br>
+      <sub>趣味夸张表情，手绘黄色大指示箭头，极粗包边字</sub>
+    </td>
+    <td align="center">
+    </td>
+    <td align="center">
     </td>
   </tr>
 </table>
