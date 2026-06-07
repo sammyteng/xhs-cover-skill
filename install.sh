@@ -3,7 +3,7 @@
 
 set -e
 
-REPO_URL="https://github.com/Vivixiao980/xhs-cover-skill"
+REPO_URL="https://github.com/sammyteng/xhs-cover-skill"
 
 # 自动检测安装平台。Codex 优先，因为可直接调用内置图片生成/编辑能力。
 PLATFORM=""
@@ -124,4 +124,4 @@ else
 fi
 echo ""
 echo "📖 详细文档：$REPO_URL"
-echo "🌐 风格预览：https://xhscover.vivi.wiki"
+echo "🌐 风格预览见仓库文档与 README"

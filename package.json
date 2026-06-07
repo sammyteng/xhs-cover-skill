@@ -12,7 +12,7 @@
   "scripts": {
     "generate": "node scripts/generate.mjs"
   },
-  "author": "Vivi",
+  "author": "sammyteng",
   "license": "MIT",
   "keywords": [
     "xiaohongshu",

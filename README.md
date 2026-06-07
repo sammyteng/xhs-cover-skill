@@ -2,7 +2,7 @@
 
 在 Codex 中直接生成或修改小红书封面。推荐安装到 Codex，这样可以优先调用 Codex 的 GPT Image 2 / 图片生成能力；Gemini 命令行脚本保留为备用方案。
 
-**官网**：[xhscover.vivi.wiki](https://xhscover.vivi.wiki)（可在线预览所有风格效果图）
+**GitHub 仓库**：[sammyteng/xhs-cover-skill](https://github.com/sammyteng/xhs-cover-skill)
 
 ---
 
@@ -13,7 +13,6 @@
 ![网站截图 - 风格选择与配置面板](assets/screenshot-website.png)
 
 > 在 Codex 中选择风格后，Skill 会自动完成上图中所有配置步骤，直接输出封面图片。
-> 完整风格效果图可在 [xhscover.vivi.wiki](https://xhscover.vivi.wiki) 预览。
 
 ---
 
@@ -69,7 +68,7 @@ skills:
 **或者使用安装脚本（自动检测平台）：**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Vivixiao980/xhs-cover-skill/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/sammyteng/xhs-cover-skill/main/install.sh | bash
 ```
 
 ---
@@ -335,4 +334,4 @@ node ~/.codex/skills/xhs-cover-skill/scripts/generate.mjs \
 
 ## License
 
-MIT — 作者：[Vivi](https://xhscover.vivi.wiki)
+MIT — 作者：[sammyteng](https://github.com/sammyteng/xhs-cover-skill)
