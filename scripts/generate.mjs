@@ -76,6 +76,17 @@ try {
   }
 }
 
+// ─── 从 xhs-saas-content profile 读取品牌名 ─────────────────────────────────
+
+let profileBrand = '';
+try {
+  const profilePath = process.env.XHS_PROFILE || path.join(os.homedir(), '.config', 'xhs-saas-content', 'profile.json');
+  if (fs.existsSync(profilePath)) {
+    const profile = JSON.parse(fs.readFileSync(profilePath, 'utf-8'));
+    profileBrand = profile.brand || '';
+  }
+} catch {}
+
 const API_KEY      = getArg('api-key')      || config.apiKey      || process.env.XHS_COVER_API_KEY || process.env.GEMINI_API_KEY;
 const BASE_URL     = getArg('base-url')     || config.baseUrl     || process.env.XHS_COVER_BASE_URL     || null;
 const API_ENDPOINT = getArg('api-endpoint') || config.apiEndpoint || process.env.XHS_COVER_API_ENDPOINT || null;
@@ -92,6 +103,7 @@ if (isNaN(_countRaw) || _countRaw < 1) {
 const COUNT        = Math.min(_countRaw, 5);
 const RATIO        = getArg('aspect-ratio') || config.defaultAspectRatio || '3:4';
 const EXTRA        = getArg('extra')        || '';
+const BRAND        = getArg('brand')        || profileBrand || '';
 const MANUAL_ROTATE   = getArg('rotate');
 const NO_AUTO_ORIENT  = hasFlag('no-auto-orient');
 const _retriesRaw = parseInt(getArg('retries') || '2', 10);
@@ -430,8 +442,14 @@ async function main() {
     SUBTITLE ? `- 副标题文字（较小展示）：${SUBTITLE}` : '',
   ].filter(Boolean).join('\n');
 
-  const GLOBAL_RULES = `\n\n【全局禁止事项】\n- 严格只使用用户提供的标题和副标题，不得增减文字\n- 不得添加任何随机英文（如 haha、nice、wow 等）\n- 不得修改人物面部`;
-  const fullPrompt = `${style.prompt}${GLOBAL_RULES}\n\n【文字内容 - 使用以下文字】\n${textPart}${EXTRA ? '\n\n【额外要求】\n' + EXTRA : ''}`;
+  const GLOBAL_RULES = `\n\n【全局与人物规则】
+- 允许在图片上合理放置与品牌相关的 Logo、品牌名称等品牌元素
+- 严禁在图片上放置 Skill 系统内部的风格名称、分类词汇、栏目角标、模板文案、期数编号等无意义的系统标签字样
+- 严格只使用用户提供的大标题和副标题文字，不得增减或拼写错误
+- 不得在图上添加任何随机无意义英文（如 haha、nice、wow、tag 等）
+- 必须保持人物的长相、五官特征和身份一致，但人物的面部表情可以根据画面内容/情绪进行合理调整（如微笑、专注等）`;
+  const rawPrompt = `${style.prompt}${GLOBAL_RULES}\n\n【文字内容 - 使用以下文字】\n${textPart}${EXTRA ? '\n\n【额外要求】\n' + EXTRA : ''}`;
+  const fullPrompt = rawPrompt.replace(/\{brand_name\}/g, BRAND || '');
 
   // 准备输出目录
   const resolvedOutputDir = expandHome(OUTPUT_DIR);
@@ -440,6 +458,7 @@ async function main() {
   console.log(`\n🎨 风格：${style.name} (${STYLE_ID})`);
   console.log(`📝 主标题：${TITLE}${SUBTITLE ? ' / 副标题：' + SUBTITLE : ''}`);
   console.log(`📐 比例：${RATIO}  |  数量：${COUNT} 张  |  重试上限：${MAX_RETRIES}`);
+  if (BRAND) console.log(`🏷️  品牌名：${BRAND}`);
   console.log(`🔑 API：${API_ENDPOINT || BASE_URL} / ${MODEL}`);
   console.log('');
 
