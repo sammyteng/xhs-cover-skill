@@ -477,6 +477,20 @@ async function main() {
         process.stdout.write(`\r✅ 已生成${label}（${elapsed}s）: ${outputPath}\n`);
         successCount++;
 
+        // ─── 导出 Design Token ──────────────────────────────────────────
+        if (style.designToken) {
+          const tokenPayload = {
+            source: 'xhs-cover-skill',
+            coverStyleId: STYLE_ID,
+            coverStyleName: style.name,
+            generatedAt: new Date().toISOString(),
+            designToken: style.designToken,
+          };
+          const tokenPath = path.join(resolvedOutputDir, 'design-token.json');
+          fs.writeFileSync(tokenPath, JSON.stringify(tokenPayload, null, 2) + '\n');
+          console.log(`   🎨 Design Token → ${tokenPath}`);
+        }
+
         // 自动打开图片（macOS: open, Linux: xdg-open）
         if (COUNT === 1) {
           try {
